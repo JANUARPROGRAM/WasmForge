@@ -1,0 +1,12 @@
+/* config.h.cin - CMake-style template */
+#define PACKAGE_NAME "@PACKAGE_NAME@"
+#define PACKAGE_VERSION "@PROJECT_VERSION@"
+#cmakedefine HAVE_LIBPNG
+#cmakedefine HAVE_LIBSAMPLERATE
+#cmakedefine HAVE_FLUIDSYNTH
+#cmakedefine HAVE_UNISTD_H
+#cmakedefine HAVE_DIRENT_H 1
+#cmakedefine01 ENABLE_SOUND
+#cmakedefine WORDS_BIGENDIAN
+#undef HAVE_STRCASECMP
+#undef PACKAGE_TARNAME

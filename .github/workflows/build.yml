@@ -1,0 +1,71 @@
+name: WasmForge Build
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x64
+            os: ubuntu-24.04
+            artifact: wasmfrg-linux-x64
+            binary: build/wasmfrg
+          - name: linux-arm64
+            os: ubuntu-24.04-arm
+            artifact: wasmfrg-linux-arm64
+            binary: build/wasmfrg
+          - name: macos-arm64
+            os: macos-14
+            artifact: wasmfrg-macos-arm64
+            binary: build/wasmfrg
+          - name: windows-x64
+            os: windows-2022
+            artifact: wasmfrg-windows-x64
+            binary: build/Release/wasmfrg.exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWASMFORGE_BUILD_TESTS=ON
+
+      - name: Compile
+        run: cmake --build build --config Release --parallel
+
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
+
+      - name: Stage binary
+        shell: bash
+        run: |
+          mkdir -p release release-assets
+          cp "${{ matrix.binary }}" "release/wasmfrg${{ runner.os == 'Windows' && '.exe' || '' }}"
+          printf '%s\n' '${{ matrix.name }}' > release/PLATFORM.txt
+          # Nama unik per platform untuk GitHub Release (nama sama akan saling menimpa)
+          cp "${{ matrix.binary }}" "release-assets/${{ matrix.artifact }}${{ runner.os == 'Windows' && '.exe' || '' }}"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: release/*
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Attach binary to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*

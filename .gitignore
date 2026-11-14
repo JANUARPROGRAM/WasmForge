@@ -1,0 +1,24 @@
+# Build outputs
+build/
+dist/
+out/
+bin/
+release/
+
+# WasmForge internal
+.wasmforge/
+.wasmforge-cache/
+.wasmforge-tmp/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
