@@ -121,14 +121,14 @@ Build terbaru yang belum dirilis tersedia di tab **Actions → workflow run → 
 
 ```bash
 # Linux / macOS / Termux / Ubuntu proot
-git clone https://github.com/USERNAME/WasmForge.git
+git clone https://github.com/JANUARPROGRAM/WasmForge.git
 cd WasmForge
 bash scripts/setup.sh
 ```
 
 ```powershell
 # Windows PowerShell
-git clone https://github.com/USERNAME/WasmForge.git
+git clone https://github.com/JANUARPROGRAM/WasmForge.git
 cd WasmForge
 powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
 ```
