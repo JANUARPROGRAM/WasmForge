@@ -237,7 +237,7 @@ proot-distro login ubuntu --bind ~/storage/downloads:/mnt/dl
 
 ```bash
 apt update && apt install -y build-essential cmake git python3 xz-utils curl unzip ca-certificates
-git clone https://github.com/USERNAME/WasmForge.git ~/WasmForge && cd ~/WasmForge
+git clone https://github.com/JANUARPROGRAM/WasmForge.git ~/WasmForge && cd ~/WasmForge
 bash scripts/setup.sh                 # atau: bash scripts/build.sh (tanpa CMake)
 export PATH="$PWD/bin:$PATH"
 
